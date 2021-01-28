@@ -7,7 +7,7 @@ import {routerMiddleware, ConnectedRouter} from 'connected-react-router'
 
 import rootReducer from './Reducer'
 import {setCurrentUser, setToken} from './components/login/LoginActions';
-import {isEmpty} from './utils/Utils';
+import { isEmpty } from './utils/Utils';
 
 const Root = ({ children, initialState = {} }) => {
     const history = createBrowserHistory();
