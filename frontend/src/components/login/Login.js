@@ -1,32 +1,42 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Form, Button, FormControl } from "react-bootstrap";
-import { Link } from 'react-router-dom'
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+} from "react-bootstrap";
+import { Link, withRouter } from "react-router-dom";
+import { login } from "./LoginActions.js";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-export default class Login extends Component {
+
+class Login extends Component {
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-       username:"",
-       password:""
-    }
+      username: "",
+      password: ""
+    };
   }
-  onChange = (e) => {
-    this.setState({[ e.target.username ]: e.target.value });
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   onLoginClick = () => {
     const userData = {
       username: this.state.username,
-      password: this.state.password
-    }
-    console.log("Login" + userData.username + "" + userData.password);
-  }
-  
+      password: this.state.password,
+    };
+    this.props.login(userData, "/dashboard");
+  };
+
   render() {
     return (
       <div>
-<Container>
+      <Container>
         <Row>
           <Col md="4">
             <h1>Login</h1>
@@ -40,7 +50,6 @@ export default class Login extends Component {
                   value={this.state.username}
                   onChange={this.onChange}
                 />
-                <FormControl.Feedback type="invalid"></FormControl.Feedback>
               </Form.Group>
 
               <Form.Group controlId="passwordId">
@@ -52,10 +61,11 @@ export default class Login extends Component {
                   value={this.state.password}
                   onChange={this.onChange}
                 />
-                <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
               </Form.Group>
             </Form>
-            <Button color="primary" onClick={this.onLoginClick}>Login</Button>
+            <Button color="primary" onClick={this.onLoginClick}>
+              Login
+            </Button>
             <p className="mt-2">
               Don't have account? <Link to="/signup">Signup</Link>
             </p>
@@ -66,3 +76,16 @@ export default class Login extends Component {
     );
   }
 }
+// connect action and store and component
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {
+  login,
+})(withRouter(Login));
