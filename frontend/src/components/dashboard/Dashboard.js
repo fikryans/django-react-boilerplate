@@ -4,6 +4,8 @@ import { logout } from '../login/LoginActions';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import AddNote from '../notes/AddNote';
+import NotesList from '../notes/NotesList'
 
 class Dashboard extends Component {
     onLogout = () => {
@@ -24,7 +26,8 @@ class Dashboard extends Component {
           </Navbar.Collapse>
         </Navbar>
         <Container>
-          <h1>Dashboard</h1>
+          <NotesList />
+          <AddNote />
         </Container>
       </div>
     );
